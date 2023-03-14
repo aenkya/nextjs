@@ -5,3 +5,6 @@ Disallow: /accounts
 # Allow all crawlers
 User-agent: *
 Allow: /
+
+User-agent: *
+Sitemap: https://enkya.org/sitemap.xml
