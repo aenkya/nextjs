@@ -3,14 +3,15 @@ import Link from 'next/link';
 
 import Container from '../components/Container';
 import BlogPostCard from '../components/BlogPostCard';
+import ImageWithTheme from 'components/ImageWithTheme';
 
 export default function Home({ videos }) {
   return (
     <Container>
       <div className="flex flex-col justify-center items-start max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pb-16">
         <div className="mx-auto text-center">
-          <Image alt="Enkya" height={144} width={144} src="/profile.png" className="rounded-full filter grayscale" />
-          <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-1 text-black dark:text-beige-100">Enkya</h1>
+          <ImageWithTheme alt="Enkya" height={144} width={144} light="/light-profile.png" dark="/profile.png" className="rounded-full" />
+          <h1 className="font-bold text-2xl md:text-4xl tracking-tight mt-4 mb-1 text-black dark:text-beige-100">Enkya</h1>
           <p className="text-gray-600 dark:text-beige-400">CS/SE | Philosphy | Art | Lifestyle </p>
         </div>
         <h3 className="font-bold text-2xl md:text-4xl tracking-tight mb-2 mt-8 text-black dark:text-beige-100">Featured Posts</h3>

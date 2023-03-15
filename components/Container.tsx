@@ -17,7 +17,7 @@ function NavItem({ href, text }) {
     <NextLink href={href}>
       <a
         className={cn(
-          isActive ? 'font-semibold text-gray-800 dark:text-beige-400' : 'font-normal text-gray-600 dark:text-beige-200',
+          isActive ? 'font-semibold text-gray-800 dark:text-beige-50' : 'font-normal text-gray-600 dark:text-beige-200',
           'hidden md:inline-block p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all'
         )}
       >
