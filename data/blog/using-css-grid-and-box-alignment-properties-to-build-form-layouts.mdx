@@ -1,0 +1,205 @@
+---
+title: 'Using CSS Grid and Box Alignment Properties to build form layouts'
+publishedAt: '2018-10-19'
+summary: 'You probably used Flexbox and were impressed. Get ready to explore the next step in building high quality layouts for the web.'
+image: '/static/images/flexbox/flexbox.webp'
+---
+
+![Bruce Bigirwenkya](https://medium.com/@aenkya?source=post_page-----b5f7ade6e73d--------------------------------)Follow
+Photo by [Michal Sycz](https://www.behance.net/michalsycz) on [Behance](https://www.behance.net/gallery/38125561/Second-Choice)
+
+You probably used [Flexbox](https://medium.com/the-andela-way/understanding-css-flexbox-87cddcd3d1e4) and were impressed. Get ready to explore the next step in building high quality layouts for the web.
+
+CSS Grid is a two-dimensional layout system designed to tackle challenges around displaying many data points on variable size displays.
+
+Why CSS Grid?
+=============
+
+*   **Responsiveness**  
+    CSS Grid makes it really easy to build layouts that adapt to different screen sizes. Part of this is achieved by the introduction of relative units like _fraction (fr)_ and other properties like _minmax()._  
+    Combining Grid properties with other CSS properties like Media Queries gives more power to declare structure for different screen sizes.
+*   **Declarative Syntax**  
+    The CSS Grid specification provides properties that create layouts declaratively; there is an ability to determine layout from a higher level without specifying the exact procedure by which one arrives at that structure.  
+    This provides clear advantage over older layout specifications like [Flexbox](https://medium.com/the-andela-way/understanding-css-flexbox-87cddcd3d1e4).
+*   **Reduced verbosity**  
+    Because of the declarative nature of CSS Grid, one does not need a lot of code to arrive at similar layouts when compared to layout models like Flexbox.
+
+> **Note:** Grid is a modern layout. It is important to look out for browser compatibility issues. Visit [caniuse](https://caniuse.com/css-grid) to view browser support
+
+The CSS Align module attempts to create a cohesive and common box alignment model to share among all of CSS.
+
+For this article, we will be implementing the layout for the form in [this Behance mockup](https://www.behance.net/gallery/71772497/Form-manipulation-mockups).
+
+[Form manipulation mockups](https://www.behance.net/gallery/71772497/Form-manipulation-mockups) by [Bruce Bigirwenkya](https://www.behance.net/brucebigirefa6) — Behance.net
+
+We start off by generating the markup.  
+This is pretty much just visualising it and writing markup for it in a way that makes sense at first sight. We can always review it later.
+
+Review markup code at: [https://gist.github.com/Elbertbiggs360/bd6534256a34370e26f5dbcb249c1b18.js](https://gist.github.com/Elbertbiggs360/bd6534256a34370e26f5dbcb249c1b18.js)
+
+We then set the display property of the container as `display: grid` . This will set the grid formatting context for the contents of the container and keep the container with the default occupation of 100% width within its parent.
+
+So as soon as we set the container’s display to grid, the grid placement algorithm kicks in.
+
+The items will be placed automatically in the order in which they are declared in the markup into grid-tracks from auto-generated grid-lines. Think of tracks as trails in the ground which can either be rows or columns.
+
+We can observe that 2 rows are created. The grid lines are labelled with their index value starting from **1** to the last, **n**, being **\-1.** We shall later look at how to use the grid-line numbers for placement.
+
+We can also identify from our mockup that the form has 3 sections. The first section is a search section and the remaining two sections have form details.  
+We made an exception in our markup for the search element. The remaining two go under the sections element.
+
+Let’s update our stylesheet
+
+Let’s go over a couple of these rules.
+
+grid-template-areas
+-------------------
+
+This property allows us to specify named grid areas. These areas allow for definition of a meaningful structure.
+
+We set `grid-template-areas: "search" "sections"` to define two areas. Each string section (in quotes) is defined as a row. The contents of each string are processed into tokens which define the columns of that area.
+
+The tokens can be:
+
+*   A [null cell token](https://www.w3.org/TR/css-grid-1/#grid-template-areas-null-cell-token) represents an unnamed area in the [grid container](https://www.w3.org/TR/css-grid-1/#grid-container).
+*   A [named cell token](https://www.w3.org/TR/css-grid-1/#grid-template-areas-named-cell-token) creates a [named grid area](https://www.w3.org/TR/css-grid-1/#named-grid-area) with the same name. Multiple [named cell tokens](https://www.w3.org/TR/css-grid-1/#grid-template-areas-named-cell-token) within and between rows create a single [named grid area](https://www.w3.org/TR/css-grid-1/#named-grid-area) that spans the corresponding [grid cells](https://www.w3.org/TR/css-grid-1/#grid-cell).
+*   A [trash token](https://www.w3.org/TR/css-grid-1/#grid-template-areas-trash-token) is a syntax error, and makes the declaration invalid.
+
+grid-template-columns / grid-template-rows
+------------------------------------------
+
+These properties enable us to explicitly size the grid-tracks. They are used for columns and rows respectively. This takes values of either none or a track-list which is basically a sequence of line names and track sizing functions.  
+Some of the track sizing functions currently are:
+
+*   `max-content` This represents the maximum size of the contents of the grid cell
+*   `min-content` This inversely represents the minimum size of the grid cell as specified by the provided value
+*   `minmax(min, max)` This defines how the content will fit in the range of the provided min and max values
+*   `fit-content` represents a formula `minmax(auto, max-content)` which basically evaluates to the contents filling the available space provided.
+*   `flex` this specifies the item’s flex factor. Items with a flex factor expand to occupy the remaining space in the ratio of the specified flex factor. Its unit is **fr**
+*   `auto` represents the maximum content available
+
+In this case, we use `grid-template-columns: 1fr` to define one column which flexes to fill the available space in the container. We use `grid-template-rows: auto 1fr` to define two rows where one is only as large as its contents. The other expands to fill up the remaining space.
+
+Noticeably, the column and row template definitions are aligned with the area definitions.
+
+column-gap / row-gap
+--------------------
+
+These properties define specified fixed-length gutters between items in a container. They are actually not defined in the grid specification but rather in the [CSS Box Alignment specification](https://www.w3.org/TR/css-align-3/#column-row-gap). They take normal values or percentage values.
+
+> **Note:**  
+> Initially, we had `grid-column-gap` and `grid-row-gap`. The [grid shorthand](https://www.w3.org/TR/css-grid-1/#propdef-grid) had an [issue](https://github.com/w3c/csswg-drafts/issues/1036) where it was resetting the grid-gap properties. The grid-gap properties were then [disconnected](https://github.com/w3c/csswg-drafts/issues/1696) from the grid shorthand and defined in the Box Alignment Spec.
+
+In our example, we set the row-gap to 0.5rem and also create margins of the same size. The outcome is shown below
+
+areas generated by grid-template-areas property
+
+> **Tip 1:**  
+> Anytime you see the word **template** in a property, you know that the property defines a structure of the grid i.e. defines the surface on which items can be placed
+
+Next, we lay out the search section.
+
+placement of search in grid-area
+
+grid-area
+---------
+
+This property is used to define the placement for an item in a specified grid area either via the area name or via the grid track line.
+
+`grid-area: <name> | <grid-row-start> / <grid-column-start> / <grid-row-end> / <grid-column-end>`
+
+**start** and **stop** in the property values define the track lines where items start and stop.  
+Apart from the name, the rest of the option values can either be
+
+`<line>` (which is a number as shown by the purple markers in the images)
+
+`span <number | name>` (an instruction for the item to span a number of tracks or until the next line with the provided name.
+
+`auto` indicating auto-placement, an automatic span or a default span of one
+
+In this case the search section spans the search area. Note how the definition of the search area is not in quotes.
+
+justify-self / align-self
+-------------------------
+
+These properties of the CSS Align module align the box/item along the different axes of the container.
+
+`justify-self` is used for the main-axis alignment. `align-self` is used for the cross-axis alignment.
+
+Their values are auto, normal, stretch, left, right or self-position which factor in other positioning functions like flex-end and flex-start.
+
+`justify-items` and `align-items` are used by the grid container to define the default justify-self/place-self values for all its items.
+
+justify-self: center
+
+> **Tip 2:**  
+> Anytime you see the word **self** in a property, you know that it defines a rule for the placement of a particular item within its container
+
+Next, we place the sections element in the sections area and create another grid within. This grid will have more columns to create a more divisible space.
+
+repeat function
+
+The resulting grid has 12 columns and 2 rows.
+
+Repeat
+------
+
+The repeat notation allows us to generate multiple tracks with a recurring pattern. This function takes two arguments. The first argument can be; a positive integer, `auto-fill`, `auto-fit` . The second argument is a track-list.
+
+`auto-fill` works with an explicitly sized grid to generate as many tracks as possible without overflowing the grid container.
+
+`auto-fit` behaves the same as auto-fill except that after grid item placement any empty repeated tracks are collapsed.
+
+Next, we create a grid for each section. We create sections for the title, action points like buttons and the details to go in the form.
+
+place-self: endAction items are justified and aligned to the end
+
+One new rule is introduced here.
+
+place-self / place-items
+------------------------
+
+This is a short-hand for alignment i.e. `place-self: <align-self> <justify-self>`
+
+So let’s add the rest of the code to position the elements within the details sections in a grid format.
+
+We use the support of the child combinator (>), we are able to select divs within the details and give them a padding (in purple) to create a consistent indent for sub-elements.
+
+positioning for the input elements
+
+Things to note:
+---------------
+
+1.  Even though we specify one explicit column for the grid, when placing explicitly positioned items. If an out of bounds column number is specified, extra tracks are generated implicitly for the grid.
+2.  Something I wanted to do was automatically position half the available inputs in a form section on the left and then position the remaining half of them on the right. I found that challenging because of the inability of CSS to count elements. Solutions can be improvised using the nth-child selector but it might be a challenge.
+3.  Understanding CSS Grid’s item placement algorithm can help guide you in achieving other auto positioning rules
+
+> **Tip 3:**  
+> You can use Firefox’s developer tools to visualise your grid. See [link](https://medium.com/@aenkya/using-css-grid-to-build-forms-b5f7ade6e73d) for more details on how to do it
+
+What is the Grid Item Placement Algorithm?
+------------------------------------------
+
+This algorithm determines and resolves the positions of grid items into definite positions.  
+By default, the auto-placement algorithm takes `row` as its initial value. This can be overridden by setting `grid-auto-flow` to `column` or `dense` .
+
+**How the algorithm works**
+
+*   Generate anonymous grid items. These are sort of “pseudo” elements which the algorithm creates for items that aren’t explicitly generated by the component tree
+*   Position anything that is not auto-positioned
+*   Process the items locked to a given row
+*   Determine the columns in the implicit grid
+*   Position the remaining grid items
+
+Refer to the [official spec](https://www.w3.org/TR/css-grid-1/#auto-placement-algo) to understand more about how this algorithm works.
+
+References
+----------
+
+*   [Grid Critters](https://gridcritters.com/)
+*   [CSS Tricks](https://css-tricks.com/snippets/css/complete-guide-grid/)
+*   [The World Wide Web Consortium](https://www.w3.org/TR/css-grid-1)
+
+Do let me know in the comments if you have any questions
+
+Cheers ❤️ 🚀

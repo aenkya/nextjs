@@ -1,0 +1,64 @@
+---
+title: 'Gopls Language Server setup for Go Projects'
+publishedAt: '2019-12-13'
+summary: 'Setting up Gopls, a language server for Golang'
+image: ''
+---
+
+![Bruce Bigirwenkya](https://miro.medium.com/v2/resize:fit:4800/format:webp/1*TieR_XCnFq_CBe2gD8yLlg.jpeg)
+Symbols by [Bruce Bigirwenkya](https://unsplash.com/@enkya?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/@enkya?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+
+What is a Language Server?
+--------------------------
+
+It is a server set up to utilise the language server protocol in order to provide tooling support for your editor.
+
+In the case of [Golang](https://golang.org/), there are 2 language servers at the moment.  
+One by the sourcegraph team called [go-langserver](https://github.com/sourcegraph/go-langserver). This is no longer under active maintenance.  
+The other by the go team called [gopls](https://github.com/golang/tools/tree/master/gopls). We shall focus on setting this up since it has support for the latest go projects using go modules.
+
+What is the Language Server Protocol(LSP)
+-----------------------------------------
+
+LSP defines the protocol used between an editor or IDE and a language server that provides language features like auto complete, go to definition, …
+
+Why use a Language Server
+-------------------------
+
+LSP was developed to reduce implementation overhead, with different editors requiring engineering effort to develop tooling for them. Any update to the tooling specifications meant multiple updates across different tools.
+
+LSP allows for effort to be focused on the Language Server with only a need to build clients for editors to utilise the Language Server for tooling support.
+
+Language Servers promote the idea of supporting your development from the cloud. This means a couple of things
+
+*   No complicated setup for tooling in your local environment. Just set up the language server and it should handle the rest of the tooling needed to support you.  
+    For example, vscode-go typically requires installing multiple packages like gocode, gopkg, gosymbols, go-outline, … These are all replaced by gopls
+*   It is easy to keep up with updated best practices. Utilising one standard language server which receives all updates and can be used to check different projects
+
+How to set up gopls for VS Code
+-------------------------------
+
+VS Code has an extension called [vscode-go](https://github.com/Microsoft/vscode-go) to provide rich language support for go projects.
+
+*   Install vscode-go extension in VS Code
+*   Opening a go project with support for go modules, vscode-go will prompt you about gopls
+*   If you choose to opt in for it, VS Code should handle the rest of the installation of gopls and will set the useLanguageServer setting to true.  
+    You should be able to use the tooling after reloading the editor.
+
+In order to set it up yourself
+
+*   Install gopls `go get golang.org/x/tools/gopls@latest`
+*   Open up your go project workspace. Ensure it is not running within the go path. Go to the workspace settings and set the useLanguageServer option true.
+*   Reload VS Code and you should be good to use the language server for tooling support
+
+**Note**
+
+*   gopls is in alpha at the time of this writing aiming for a stable release in the first half of 2020
+*   vscode-go allows you to set `go.toolsGopath` to a custom path. If this is not set, It will default to the GOPATH env path
+
+References
+----------
+
+*   [https://github.com/microsoft/vscode-go#go-language-server](https://github.com/microsoft/vscode-go#go-language-server)
+*   [https://microsoft.github.io/language-server-protocol/](https://microsoft.github.io/language-server-protocol/)
+*   [https://github.com/golang/tools/tree/master/gopls](https://github.com/golang/tools/tree/master/gopls)

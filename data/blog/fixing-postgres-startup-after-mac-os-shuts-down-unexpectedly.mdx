@@ -1,0 +1,32 @@
+---
+title: 'Fixing Postgres startup after Mac OS shuts down unexpectedly'
+publishedAt: '2018-12-01'
+summary: 'This happens occasionally with your setup if you have to force shut down your device. Find out how to resolve it'
+image: ''
+---
+![Postgres MacOS](/static/images/postgres-macos/1.webp)
+
+Fixing Postgres startup after Mac OS shuts down unexpectedly
+------------------------------------------------------------
+
+I tried starting [pgadmin](https://www.pgadmin.org/) and it failed. When I tried accessing postgres via the terminal, it failed too. With a message:
+
+![Error message](/static/images/postgres-macos/2.webp)
+
+As it turns out my mac had shut down unexpectedly. Because Postgres had not shut down correctly, there was still a process running at the default port on which Postgres runs.
+
+To [fix this issue](https://stackoverflow.com/questions/37307346/is-the-server-running-on-host-localhost-1-and-accepting-tcp-ip-connections/37307420), go to your terminal and run Postgres: `postgres -D /usr/local/var/postgres`
+
+You should be able to see a message like something below
+
+![Raincheck Error](/static/images/postgres-macos/3.webp)
+
+The hint should show what process is blocking that port. Run `kill -9 PID` where PID is the number in the hint.
+
+If there is no error message, you can then try running Postgres again.
+
+![Message if error resolved](/static/images/postgres-macos/4.webp)
+
+You should see log information with Postgres’s recovery steps from your last failure. It should also be able to accept your attempts to connect to the server.
+
+Cheers
