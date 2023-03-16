@@ -4,6 +4,7 @@
   "scripts": {
     "build": "next build",
     "postbuild": "node ./scripts/generate-sitemap.mjs",
+    "export": "npm run build && next export -o _static",
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint"
