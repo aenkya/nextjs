@@ -1,15 +1,15 @@
 version: "1"
-name: "enkya"
+name: "dev-enkya"
 services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: enkya-web
+      dockerfile: Dockerfile.dev
+    container_name: dev-enkya-web
     ports:
       - "3000:3000"
     volumes:
       - ./:/var/www/enkya-blog
       - /var/www/enkya-blog/node_modules
     environment:
-      - TIER=prod
+      - TIER=dev

@@ -12,11 +12,14 @@ lint:
 up:
 	docker-compose up -d
 
+dev:
+	docker-compose -f docker-compose.dev.yml up
+
 down:
 	docker-compose down
 
 build:
-	docker-compose -f docker-compose.yml build --no-cache
+	docker-compose -f docker-compose.yml build
 
 clean:
 	-docker stop ${SERVICE_NAME}
