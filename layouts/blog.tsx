@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import { parseISO, format } from 'date-fns';
 
+import ImageWithTheme from 'components/ImageWithTheme';
 import Container from 'components/Container';
 import type { PropsWithChildren } from 'react';
 import type { Blog } from 'contentlayer/generated';
@@ -18,7 +18,7 @@ export default function BlogLayout({ children, post }: PropsWithChildren<{ post:
         <h1 className="mb-4 text-3xl font-bold tracking-tight text-black md:text-5xl dark:text-beige-100">{post.title}</h1>
         <div className="flex flex-col items-start justify-between w-full mt-2 md:flex-row md:items-center">
           <div className="flex items-center">
-            <Image alt="Enkya" height={40} width={40} src="/profile.png" className="rounded-full" />
+            <ImageWithTheme alt="Enkya" height={40} width={40} light="/light-profile.png" dark="/profile.png" className="rounded-full" />
             <div>
               <p className="ml-2 text-sm text-gray-700 dark:text-gray-300">Enkya</p>
               <p className="ml-2 text-sm text-gray-700 dark:text-gray-300">{format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}</p>
