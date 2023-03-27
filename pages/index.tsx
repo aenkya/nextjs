@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import Container from '../components/Container';
@@ -7,7 +6,7 @@ import ImageWithTheme from 'components/ImageWithTheme';
 import cn from 'classnames';
 import styles from 'styles/components.module.css';
 
-export default function Home({ videos }) {
+export default function Home() {
   return (
     <Container>
       <div className="flex flex-col justify-center items-start max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pb-16">
