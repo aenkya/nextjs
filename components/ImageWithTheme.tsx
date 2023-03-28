@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import cn from 'classnames';
+import styles from 'styles/imageWithTheme.module.css';
 
 export default function ImageWithTheme(props) {
   const { theme } = useTheme();
@@ -12,10 +14,12 @@ export default function ImageWithTheme(props) {
   }, [props.dark, props.light, theme]);
 
   return (
-    <Image
-      alt={props.alt}
-      src={finalProps}
-      {...props}
-    />
+    <div className={cn(styles.fadeInImage)}>
+      <Image
+        alt={props.alt}
+        src={finalProps}
+        {...props}
+      />
+    </div>
   );
 }
