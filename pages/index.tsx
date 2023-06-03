@@ -25,6 +25,8 @@ export default function Home() {
         />
         <Link
           href="/blog"
+          role="button"
+          aria-label="Read all posts"
           className="flex mt-8 text-gray-600 dark:text-beige-400 leading-7 rounded-lg hover:text-gray-800 dark:hover:text-beige-200 transition-all h-6">
           Read all posts<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="h-6 w-6 ml-1">
             <path
