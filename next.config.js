@@ -6,6 +6,9 @@ const { withContentlayer } = require('next-contentlayer');
 module.exports = withContentlayer({
   swcMinify: true,
   reactStrictMode: true,
+  experimental: {
+    appDir: true,
+  },
   images: {
     domains: [
       'i.scdn.co', // Spotify Album Art
